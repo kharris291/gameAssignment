@@ -54,6 +54,15 @@ void PhysicsCamera::Update(float timeDelta)
 		physicsComponent->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
 		elapsed = 0.0f;
 	}
+	else if ((keyState[SDL_SCANCODE_P]) && (elapsed > timeToPass))
+	{
+		glm::vec3 pos = parent->position + (parent->look * 5.0f);
+		glm::quat q(RandomFloat(), RandomFloat(), RandomFloat(), RandomFloat());
+		glm::normalize(q);
+		physicsFactory->RigidBody(10.0f,10.0f,10.0f);
+		
+		elapsed = 0.0f;
+	}
 	else
 	{
 		elapsed += timeDelta;
