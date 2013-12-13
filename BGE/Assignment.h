@@ -37,6 +37,7 @@ namespace BGE
 		void CreateWall();
 		void RagDoll();
 		void Layout();
+		void knockOver();
 		shared_ptr<FountainEffect> fountain1;
 		shared_ptr<FountainEffect> fountain2;
 		

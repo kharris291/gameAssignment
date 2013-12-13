@@ -209,9 +209,6 @@
     <ClCompile Include="Assignment.cpp">
       <Filter>Labs</Filter>
     </ClCompile>
-    <ClCompile Include="Layout.cpp">
-      <Filter>Labs</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -381,9 +378,6 @@
     </ClInclude>
     <ClInclude Include="PhysicsDrawer.h" />
     <ClInclude Include="Assignment.h">
-      <Filter>Labs</Filter>
-    </ClInclude>
-    <ClInclude Include="Layout.h">
       <Filter>Labs</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,9 +90,12 @@ bool Assignment::Initialise()
 	ships->parent;
 	Attach(ships);
 
-	ship2 = physicsFactory->CreateFromModel("cobramk3", glm::vec3(220, 2, -400),glm::quat(), glm::vec3(1));
+	ship2 = physicsFactory->CreateFromModel("cobramk3", glm::vec3(200, 10, -400),glm::quat(), glm::vec3(1));
 	ship2->rigidBody->setActivationState(DISABLE_DEACTIVATION);
+	ship2->parent;
 	Attach(ship2);
+
+	Assignment::knockOver();
 	
 	hud = false;
 	
@@ -129,7 +132,7 @@ void BGE::Assignment::Update(float timeDelta)
 	}
 
 	if(keyState[SDL_SCANCODE_1]){
-		camera->GetController()->position = glm::vec3(ships->position.x,ships->position.y+20, ships->position.z);
+		camera->GetController()->position = glm::vec3(ships->position.x,ships->position.y+6, ships->position.z-5);
 	}else if(keyState[SDL_SCANCODE_2]){
 		camera->GetController()->position = glm::vec3(20,20,20);
 	}
@@ -137,7 +140,7 @@ void BGE::Assignment::Update(float timeDelta)
 		camera->GetController()->position = glm::vec3(200,20,200);
 	}
 	else if(keyState[SDL_SCANCODE_4]){
-		camera->GetController()->position = ship2->position;
+		camera->GetController()->position = glm::vec3(ship2->position.x,ship2->position.y+2,ship2->position.z-6);
 	}
 
 
@@ -162,12 +165,37 @@ void BGE::Assignment::Update(float timeDelta)
 		ships->rigidBody->applyCentralForce(GLToBtVector(ships->look * 0.0f));
 	}
 
-	if ((keyState[SDL_SCANCODE_RSHIFT])||(keyState[SDL_SCANCODE_LSHIFT]))
+	if (keyState[SDL_SCANCODE_T])
+	{
+		ship2->rigidBody->applyCentralForce(GLToBtVector(-ship2->look * speed));
+	}
+	if (keyState[SDL_SCANCODE_G])
+	{
+		ship2->rigidBody->applyCentralForce(GLToBtVector(ship2->look * speed));
+	}
+	if (keyState[SDL_SCANCODE_F])
+	{
+		ship2->rigidBody->applyTorque(GLToBtVector(ship2->up* speed));
+	}
+	if (keyState[SDL_SCANCODE_H])
+	{
+		ship2->rigidBody->applyTorque(GLToBtVector(-ship2->up * speed));
+	}
+
+
+
+
+	if (keyState[SDL_SCANCODE_RSHIFT])
 	{
 
 		speed = 30.0f;
 		
-	}else{
+	}else if(keyState[SDL_SCANCODE_LSHIFT]){
+		
+		speed = 60.0f;
+	}
+	else
+	{
 		speed=10.0f;
 	}
 	
@@ -184,6 +212,17 @@ void BGE::Assignment::Update(float timeDelta)
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	Game::Update(timeDelta);
 }
+
+void BGE::Assignment::knockOver(){
+	
+	physicsFactory->RigidBody(200,3,190);
+	physicsFactory->CreateWall(glm::vec3(186,1,230), 5, 5,5,5,5);
+	physicsFactory->CreateWall(glm::vec3(190,1,225), 4, 5,5,5,5);
+	physicsFactory->CreateWall(glm::vec3(194,1,220), 3, 5,5,5,5);
+	physicsFactory->CreateWall(glm::vec3(197,1,215), 2, 5,5,5,5);
+	physicsFactory->CreateWall(glm::vec3(200,1,210), 1, 5,5,5,5);
+}
+
 
 void BGE::Assignment::Layout(){
 	//right walls
